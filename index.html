@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gabriel Gustavo Lizama May | Portafolio</title>
+    <meta name="description" content="Portafolio profesional de un desarrollador web y entusiasta del espacio.">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;800&family=Outfit:wght@400;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Script para renderizar modelos 3D -->
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
+</head>
+<body>
+    <!-- Fondo interactivo estelar -->
+    <canvas id="space-canvas"></canvas>
+    
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="logo"><i class="fas fa-meteor"></i> Nova<span>Soft</span></div>
+            <ul class="nav-links">
+                <li><a href="#home">Mando</a></li>
+                <li><a href="#about">Tripulante</a></li>
+                <li><a href="#skills">Sistemas</a></li>
+                <li><a href="#projects">Misiones</a></li>
+                <li><a href="#contact" class="btn-sm">Transmitir</a></li>
+            </ul>
+            <div class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <section id="home" class="hero">
+            <div class="hero-content">
+                <p class="greeting">Perfil Profesional de</p>
+                <h1 class="name" style="font-size: 3.5rem;">Gabriel Gustavo Lizama May</h1>
+                <h2 class="title">Piloto de <span class="gradient-text">Software</span> & Web</h2>
+                <p class="description">
+                    Navegando a través de líneas de código para construir experiencias digitales a la velocidad de la luz. 
+                    Listo para la próxima misión estelar en Nova Soft.
+                </p>
+                <div class="hero-buttons">
+                    <a href="#projects" class="btn btn-primary">Ver Misiones <i class="fas fa-space-shuttle"></i></a>
+                    <a href="#contact" class="btn btn-outline">Abrir Comunicaciones</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="spaceship-container">
+                    <!-- Nave SVG Animada -->
+                    <svg class="spaceship-anim" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="neonGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" stop-color="#38bdf8" />
+                                <stop offset="100%" stop-color="#818cf8" />
+                            </linearGradient>
+                            <linearGradient id="fireGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" stop-color="#fbbf24" />
+                                <stop offset="100%" stop-color="#f43f5e" />
+                            </linearGradient>
+                        </defs>
+                        <!-- Cuerpo Nave -->
+                        <polygon points="100,20 65,90 65,150 135,150 135,90" fill="url(#neonGrad)" />
+                        <!-- Ventana -->
+                        <circle cx="100" cy="85" r="16" fill="#030613" stroke="#38bdf8" stroke-width="4" />
+                        <!-- Ala Izquierda -->
+                        <polygon points="65,100 20,150 50,170 65,150" fill="url(#neonGrad)" />
+                        <!-- Ala Derecha -->
+                        <polygon points="135,100 180,150 150,170 135,150" fill="url(#neonGrad)" />
+                        <!-- Fuego Motor Interactivo -->
+                        <polygon points="80,150 120,150 100,195" fill="url(#fireGrad)" opacity="0.9">
+                            <animate attributeName="opacity" values="0.9;0.4;0.9" dur="0.15s" repeatCount="indefinite" />
+                        </polygon>
+                        <!-- Rayas Detalles -->
+                        <line x1="100" y1="35" x2="100" y2="55" stroke="#030613" stroke-width="4" stroke-linecap="round"/>
+                    </svg>
+                    <div class="orbit orbit-1"><i class="fab fa-react"></i></div>
+                    <div class="orbit orbit-2"><i class="fab fa-js"></i></div>
+                    <div class="orbit orbit-3"><i class="fab fa-css3-alt"></i></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="about">
+            <h2 class="section-title">Datos del <span class="gradient-text">Tripulante</span></h2>
+            <div class="about-content">
+                <div class="about-text glass-card">
+                    <p>¡Saludos galácticos! Soy un desarrollador web con un inmenso afán por descubrir nuevas fronteras en la programación. Desde el momento en que estructuré mi primer sitio, he estado en órbita constante, aprendiendo y evolucionando en mis tecnologías.</p>
+                    <p>Mi base de operaciones y ecosistema es Nova Soft. Me apasionan las interfaces que no solo lucen como provenientes del futuro, sino que funcionan con la eficiencia de un motor hiperespacial. ¡Prepárate para el despegue!</p>
+                </div>
+                <div class="stats">
+                    <div class="stat-item glass-card">
+                        <h3>∞</h3>
+                        <p>Curiosidad</p>
+                    </div>
+                    <div class="stat-item glass-card">
+                        <h3>10+</h3>
+                        <p>Sectores Explorados</p>
+                    </div>
+                    <div class="stat-item glass-card">
+                        <h3>100%</h3>
+                        <p>Combustible Lleno</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills" class="skills">
+            <h2 class="section-title">Sistemas <span class="gradient-text">Operativos</span></h2>
+            <div class="skills-grid">
+                <!-- Tarjetas rediseñadas estilo ciberespacio hexágonos -->
+                <div class="cyber-skill-card">
+                    <div class="cyber-hexagon"><i class="fab fa-react" style="color: #61DAFB;"></i></div>
+                    <h3>React</h3>
+                </div>
+                <div class="cyber-skill-card">
+                    <div class="cyber-hexagon"><i class="fab fa-js" style="color: #F7DF1E;"></i></div>
+                    <h3>JavaScript</h3>
+                </div>
+                <div class="cyber-skill-card">
+                    <div class="cyber-hexagon"><i class="fab fa-html5" style="color: #E34F26;"></i></div>
+                    <h3>HTML</h3>
+                </div>
+                <div class="cyber-skill-card">
+                    <div class="cyber-hexagon"><i class="fab fa-css3-alt" style="color: #1572B6;"></i></div>
+                    <h3>CSS</h3>
+                </div>
+                <div class="cyber-skill-card">
+                    <div class="cyber-hexagon"><i class="fas fa-wind" style="color: #38bdf8;"></i></div>
+                    <h3>Tailwind</h3>
+                </div>
+                <div class="cyber-skill-card">
+                    <div class="cyber-hexagon"><i class="fas fa-rocket" style="color: #FF5A03;"></i></div>
+                    <h3>Astro</h3>
+                </div>
+                <div class="cyber-skill-card">
+                    <div class="cyber-hexagon"><i class="fas fa-fire" style="color: #FFCA28;"></i></div>
+                    <h3>Firebase</h3>
+                </div>
+                <div class="cyber-skill-card">
+                    <div class="cyber-hexagon"><i class="fas fa-database" style="color: #3ECF8E;"></i></div>
+                    <h3>Supabase</h3>
+                </div>
+                <div class="cyber-skill-card">
+                    <div class="cyber-hexagon"><i class="fab fa-git-alt" style="color: #F05032;"></i></div>
+                    <h3>Git</h3>
+                </div>
+                <div class="cyber-skill-card">
+                    <div class="cyber-hexagon"><i class="fab fa-github" style="color: #ffffff;"></i></div>
+                    <h3>GitHub</h3>
+                </div>
+                <div class="cyber-skill-card">
+                    <div class="cyber-hexagon"><i class="fas fa-mobile-alt" style="color: #02569B;"></i></div>
+                    <h3>Flutter</h3>
+                </div>
+                <div class="cyber-skill-card">
+                    <div class="cyber-hexagon"><i class="fab fa-python" style="color: #3776AB;"></i></div>
+                    <h3>Python</h3>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects" class="projects">
+            <h2 class="section-title">Misiones <span class="gradient-text">Exitosas</span></h2>
+            <div class="projects-grid">
+                <!-- Project 1 -->
+                <div class="project-card glass-card">
+                    <div class="project-img">
+                        <img src="./assets/snacks_lizama.png" alt="Snacks Lizama App">
+                        <div class="project-overlay">
+                            <a href="https://snacks-lizama.netlify.app" target="_blank" class="view-btn"><i class="fas fa-external-link-alt"></i> Visitar Sector</a>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <h3>Snacks Lizama</h3>
+                        <p>Sitio web para el negocio Snacks Lizama. Creado para mostrar el catálogo y servicios en órbita rápida.</p>
+                        <div class="project-tags">
+                            <span>Astro</span>
+                            <span>React</span>
+                            <span>JavaScript</span>
+                            <span>Tailwind</span>
+                            <span>Firebase</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="project-card glass-card">
+                    <div class="project-img">
+                        <img src="./assets/nova_soft.png" alt="Nova Soft Web">
+                        <div class="project-overlay">
+                            <a href="https://nova-soft-web.vercel.app" target="_blank" class="view-btn"><i class="fas fa-external-link-alt"></i> Visitar Sector</a>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <h3>Nova Soft Web</h3>
+                        <p>Cuartel general de Nova Soft en Vercel. Plataforma optimizada y estéticamente destacada para el cosmos digital.</p>
+                        <div class="project-tags">
+                            <span>Astro</span>
+                            <span>React</span>
+                            <span>JavaScript</span>
+                            <span>Tailwind</span>
+                            <span>Supabase</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="contact">
+            <div class="contact-card glass-card">
+                <h2 class="section-title">Transmisión de <span class="gradient-text">Contacto</span></h2>
+                <p>¿Buscas un copiloto para tu próximo gran hito? ¡Codifica tu mensaje intergaláctico aquí y lo recibiré en la estación central!</p>
+                <form class="contact-form" id="contactForm">
+                    <div class="input-group">
+                        <input type="text" id="name" required placeholder="Identidad (Tu Nombre)">
+                    </div>
+                    <div class="input-group">
+                        <input type="email" id="email" required placeholder="Frecuencia (Tu Email)">
+                    </div>
+                    <div class="input-group">
+                        <textarea id="message" rows="5" required placeholder="Datos de Transmisión (Tu Mensaje)"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Emitir Señal <i class="fas fa-satellite-dish"></i></button>
+                </form>
+                <div class="social-links">
+                    <a href="#" target="_blank"><i class="fab fa-github"></i></a>
+                    <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Gabriel Gustavo Lizama May. Transmisión Completada.</p>
+        <p>Propulsado por ✨ Nova Soft ✨</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
