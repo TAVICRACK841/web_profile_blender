@@ -1,0 +1,49 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Models3D from '../components/Models3D.jsx';
+---
+
+<Layout title="Setup 3D | Gabriel Gustavo Lizama May">
+  <div class="portfolio-container" style="min-height: 100vh; display: flex; flex-direction: column;">
+    <header>
+      <div class="logo" style="display: flex; align-items: center; gap: 10px;">
+        <img id="user-avatar" class="user-avatar" src="" alt="Avatar" style="display: none;" />
+        <span id="logo-text" style="font-size: 1.5rem; font-weight: 800; letter-spacing: 2px; color: var(--primary-color);">TAVICRACK</span>
+        <span style="color: #8b949e; font-size: 1rem; font-weight: normal;">| Visor 3D</span>
+      </div>
+      <nav class="nav-links">
+        <a href="/portfolio">Menú Principal</a>
+        <a href="/portfolio#skills">Habilidades</a>
+        <a href="/portfolio#projects">Proyectos</a>
+      </nav>
+      <a href="/portfolio" class="logout-btn" style="text-decoration: none;">← Volver</a>
+    </header>
+
+    <main style="flex: 1; display: flex; flex-direction: column; max-width: 1400px; padding-bottom: 0;">
+      <div style="margin-bottom: 2rem; text-align: center;">
+        <h1 style="color: #fff; font-size: 2.5rem; margin-bottom: 0.5rem;">Explorador de Setup 3D</h1>
+        <p style="color: #8b949e;">Usa el mouse para rotar 360° y hacer zoom en cada uno de los componentes de mi entorno de desarrollo.</p>
+      </div>
+
+      <Models3D client:load />
+    </main>
+  </div>
+
+  <script>
+    import { onAuthStateChanged } from 'firebase/auth';
+    import { auth } from '../firebase/client';
+
+    // Manejar avatar de usuario
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const avatarImg = document.getElementById('user-avatar');
+        const logoText = document.getElementById('logo-text');
+        if (avatarImg) {
+          avatarImg.src = user.photoURL || 'https://ui-avatars.com/api/?name=User&background=ffcc00&color=000';
+          avatarImg.style.display = 'block';
+          if (logoText) logoText.style.display = 'none';
+        }
+      }
+    });
+  </script>
+</Layout>

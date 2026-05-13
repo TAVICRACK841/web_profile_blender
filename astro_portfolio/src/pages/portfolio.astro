@@ -1,0 +1,87 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Skills from '../components/Skills.jsx';
+import Projects from '../components/Projects.jsx';
+---
+
+<Layout title="Portafolio | Gabriel Gustavo Lizama May">
+  <div class="portfolio-container">
+    <header>
+      <div class="logo" style="display: flex; align-items: center; gap: 10px;">
+        <img id="user-avatar" class="user-avatar" src="" alt="Avatar" style="display: none;" />
+        <span id="logo-text" style="font-size: 1.5rem; font-weight: 800; letter-spacing: 2px; color: var(--primary-color);">TAVICRACK</span>
+      </div>
+      <nav class="nav-links">
+        <a href="#about">Sobre mí</a>
+        <a href="#skills">Habilidades</a>
+        <a href="/modelos">Modelos 3D</a>
+        <a href="#projects">Proyectos</a>
+      </nav>
+      <button class="logout-btn" id="logoutBtn">Cerrar Sesión</button>
+    </header>
+
+    <main>
+      {/* Hero / About Section */}
+      <section class="hero-section" id="about">
+        <div class="hero-content" style="grid-column: 1 / -1; text-align: center; max-width: 800px; margin: 0 auto;">
+          <h1>Hola, soy Gabriel Gustavo Lizama May</h1>
+          <p>
+            Bienvenido a mi espacio digital. Soy un desarrollador web apasionado por crear 
+            experiencias interactivas. Este es mi portafolio interactivo donde demuestro mis 
+            habilidades fusionando la web y el modelado 3D en Blender.
+          </p>
+        </div>
+      </section>
+
+      {/* 3D Models CTA Section */}
+      <section id="models" style="padding: 4rem 0; border-top: 1px solid var(--border-color); text-align: center;">
+        <h2 class="section-title">Mi Entorno de Trabajo 3D</h2>
+        <p style="color: #8b949e; margin-bottom: 2rem;">He diseñado y modelado todo mi setup en Blender. Entra aquí para explorar cada objeto y manipularlo libremente en 360°.</p>
+        <a href="/modelos" class="blender-btn" style="margin: 0 auto;">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
+            <path d="M14.933 6.345c-2.327-.47-5.064-.5-7.466 2.37-2.316 2.766-2.585 7.15-2.022 10.45 1.554-.87 4.54-3.513 4.54-3.513s.475-.38.86-.54l.01-.005c.805-.333 1.954-.42 3.036-.32 1.48.136 3.125.688 3.5 1.442.274.55.088 1.423-.88 2.062 1.25-.425 2.096-1.127 2.257-1.84.214-.95-1.026-2.61-2.935-3.374-1.343-.538-3.04-.66-4.506-.554-1.464.106-2.884.512-3.882 1.144-.06.038-.114.08-.168.125-.194-.282-.366-.583-.518-.9-1.226-2.553-.61-5.74 1.237-7.948 1.96-2.344 4.312-2.558 6.938-2.008zM9.475 22.42c.86.347 1.83.473 2.802.473 4.707 0 8.525-3.818 8.525-8.525 0-.493-.042-.976-.12-1.445-1.026 1.107-2.736 1.843-4.57 2.152-1.397.235-3.23.19-4.82-.128 1.764.558 3.738.56 5.378-.016.92-.323 1.637-.778 2.062-1.286-.298 3.14-2.93 5.586-6.142 5.586-1.144 0-2.21-.308-3.115-.81zM11.75 14.19c.895 0 1.62.725 1.62 1.62s-.725 1.62-1.62 1.62-1.62-.725-1.62-1.62.725-1.62 1.62-1.62z"/>
+          </svg>
+          Modelos 3D
+        </a>
+      </section>
+
+      {/* Skills Section */}
+      <Skills client:load />
+
+      {/* Projects Section */}
+      <Projects client:load />
+    </main>
+  </div>
+
+  <script>
+    import { signOut, onAuthStateChanged } from 'firebase/auth';
+    import { auth } from '../firebase/client';
+
+    // Manejar avatar de usuario
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const avatarImg = document.getElementById('user-avatar');
+        const logoText = document.getElementById('logo-text');
+        // Usar foto de Google si existe, o usar una por defecto
+        if (avatarImg) {
+          avatarImg.src = user.photoURL || 'https://ui-avatars.com/api/?name=User&background=ffcc00&color=000';
+          avatarImg.style.display = 'block';
+          if (logoText) logoText.style.display = 'none';
+        }
+      }
+    });
+
+    // Manejar cierre de sesión
+    const logoutBtn = document.getElementById('logoutBtn');
+    if (logoutBtn) {
+      logoutBtn.addEventListener('click', async () => {
+        try {
+          await signOut(auth);
+          window.location.href = '/';
+        } catch (error) {
+          console.error("Error al cerrar sesión", error);
+        }
+      });
+    }
+  </script>
+</Layout>
