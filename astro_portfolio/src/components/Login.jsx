@@ -5,6 +5,7 @@ import {
   signInWithPopup
 } from 'firebase/auth';
 import { auth, googleProvider } from '../firebase/client';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -38,7 +39,7 @@ export default function Login() {
       } else if (err.code === 'auth/weak-password') {
         setError("La contraseña debe tener al menos 6 caracteres.");
       } else if (err.code === 'auth/invalid-credential' || err.code === 'auth/user-not-found' || err.code === 'auth/wrong-password') {
-        setError("Credenciales incorrectas. Por favor verifica.");
+        setError("Contraseña incorrecta. (Si te registraste con Google antes, debes usar el botón de Google)");
       } else {
         setError("Ocurrió un error. Verifica tu conexión o intenta de nuevo.");
       }
@@ -100,8 +101,9 @@ export default function Login() {
                 className="toggle-password-btn"
                 onClick={() => setShowPassword(!showPassword)}
                 title={showPassword ? "Ocultar contraseña" : "Ver contraseña"}
+                style={{ background: 'none', border: 'none', color: '#ffb300', cursor: 'pointer', fontSize: '1.2rem', display: 'flex', alignItems: 'center' }}
               >
-                {showPassword ? "👁️‍🗨️" : "👁️"}
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
               </button>
             </div>
           </div>

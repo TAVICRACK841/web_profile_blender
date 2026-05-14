@@ -1,10 +1,10 @@
 :root {
-  --bg-color: #0d0d0d;
-  --text-color: #e0e0e0;
-  --primary-color: #ffcc00;
-  --primary-glow: rgba(255, 204, 0, 0.4);
-  --glass-bg: rgba(20, 20, 20, 0.85);
-  --border-color: #332900;
+  --bg-color: #000000;
+  --text-color: #fce8cc;
+  --primary-color: #ffaa00;
+  --primary-glow: rgba(255, 170, 0, 0.6);
+  --glass-bg: #000000;
+  --border-color: #ffaa00;
 }
 
 * {
@@ -14,14 +14,7 @@
 }
 
 body {
-  background-color: var(--bg-color);
-  background-image: 
-    linear-gradient(135deg, rgba(255, 204, 0, 0.15) 0%, rgba(255, 204, 0, 0.15) 3%, transparent 3%),
-    linear-gradient(135deg, transparent 3%, rgba(255, 255, 255, 0.1) 3%, rgba(255, 255, 255, 0.1) 6%, transparent 6%),
-    linear-gradient(-45deg, rgba(255, 204, 0, 0.15) 0%, rgba(255, 204, 0, 0.15) 3%, transparent 3%),
-    linear-gradient(-45deg, transparent 3%, rgba(255, 255, 255, 0.1) 3%, rgba(255, 255, 255, 0.1) 6%, transparent 6%);
-  background-attachment: fixed;
-  background-size: 100vw 100vh;
+  background-color: #000000;
   color: var(--text-color);
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
   min-height: 100vh;
@@ -29,13 +22,12 @@ body {
   flex-direction: column;
 }
 
-/* Auth Container */
 .auth-wrapper {
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background: radial-gradient(circle at center, #1f242e 0%, #0d1117 100%);
+  background: #000000;
 }
 
 .login-container {
@@ -77,7 +69,7 @@ body {
 }
 
 .input-group input {
-  background: #0d1117;
+  background: #000000;
   border: 1px solid var(--border-color);
   padding: 0.75rem 1rem;
   border-radius: 6px;
@@ -89,24 +81,27 @@ body {
 .input-group input:focus {
   outline: none;
   border-color: var(--primary-color);
-  box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.3);
+  box-shadow: 0 0 0 3px rgba(255, 170, 0, 0.3);
 }
 
 .login-btn {
   width: 100%;
-  background: var(--primary-color);
-  color: #fff;
-  border: none;
   padding: 0.75rem;
+  background-color: var(--primary-color);
+  color: #000;
+  border: none;
   border-radius: 6px;
   font-size: 1rem;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
-  transition: background 0.2s ease, transform 0.1s ease;
+  transition: all 0.3s;
+  box-shadow: 0 4px 15px rgba(255, 170, 0, 0.3);
 }
 
 .login-btn:hover {
-  background: #3182ce;
+  background-color: #ffc400;
+  box-shadow: 0 6px 20px var(--primary-glow);
+  transform: translateY(-2px);
 }
 
 .login-btn:active {
@@ -228,8 +223,7 @@ header {
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid var(--border-color);
-  background: rgba(13, 17, 23, 0.8);
-  backdrop-filter: blur(10px);
+  background: #000000;
   position: sticky;
   top: 0;
   z-index: 100;
@@ -441,7 +435,7 @@ main {
 }
 
 .models-menu {
-  background: rgba(13, 17, 23, 0.5);
+  background: #000000;
   padding: 1.5rem;
   border-right: 1px solid var(--border-color);
 }
@@ -500,8 +494,7 @@ main {
   position: absolute;
   bottom: 1rem;
   left: 1rem;
-  background: rgba(13, 17, 23, 0.8);
-  backdrop-filter: blur(5px);
+  background: #000000;
   padding: 0.75rem 1rem;
   border-radius: 8px;
   border: 1px solid var(--border-color);
@@ -638,7 +631,7 @@ main {
 }
 
 .project-link:hover {
-  background: #3182ce;
+  background: #cc8800;
 }
 
 @media (min-width: 1024px) {
@@ -656,4 +649,16 @@ main {
     flex-direction: column;
     justify-content: center;
   }
+}
+
+/* Typewriter Cursor */
+.type-cursor {
+  color: var(--primary-color);
+  animation: blink 1s step-start infinite;
+  font-weight: 300;
+  margin-left: 2px;
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
 }
