@@ -1,4 +1,5 @@
 ---
+import { ClientRouter } from 'astro:transitions';
 import '../styles/global.css';
 
 interface Props {
@@ -19,9 +20,261 @@ const { title } = Astro.props;
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <ClientRouter />
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
+    <script is:inline src="https://www.youtube.com/iframe_api"></script>
   </head>
   <body>
+    <!-- Cursor Personalizado -->
+    <div id="custom-cursor" class="custom-cursor" transition:persist="cursor"></div>
+    <canvas id="cursor-canvas" transition:persist="cursor-canvas" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 99998; transition: opacity 0.2s;"></canvas>
+
+    <script is:inline>
+      // Lógica del cursor animado (Partículas)
+      if (window.matchMedia("(pointer: fine)").matches) {
+        let mouseX = window.innerWidth / 2;
+        let mouseY = window.innerHeight / 2;
+        let isVisible = false;
+        
+        const canvas = document.getElementById('cursor-canvas');
+        const ctx = canvas.getContext('2d');
+        
+        let width = window.innerWidth;
+        let height = window.innerHeight;
+        canvas.width = width;
+        canvas.height = height;
+
+        window.addEventListener('resize', () => {
+          width = window.innerWidth;
+          height = window.innerHeight;
+          canvas.width = width;
+          canvas.height = height;
+        });
+
+        const particles = [];
+
+        class Particle {
+          constructor(x, y) {
+            this.x = x;
+            this.y = y;
+            // Dirección aleatoria
+            const angle = Math.random() * Math.PI * 2;
+            const speed = Math.random() * 1.5 + 0.2;
+            this.vx = Math.cos(angle) * speed;
+            this.vy = Math.sin(angle) * speed;
+            this.size = Math.random() * 2 + 1; // Tamaño inicial
+            this.life = 1;
+            this.decay = Math.random() * 0.02 + 0.015; // Velocidad de desvanecimiento
+          }
+          
+          update() {
+            this.x += this.vx;
+            this.y += this.vy;
+            this.life -= this.decay;
+          }
+          
+          draw(ctx) {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(255, 170, 0, ${this.life})`;
+            ctx.fill();
+            
+            ctx.shadowBlur = 10;
+            ctx.shadowColor = `rgba(255, 170, 0, ${this.life})`;
+          }
+        }
+
+        document.addEventListener('mousemove', (e) => {
+          const dx = e.clientX - mouseX;
+          const dy = e.clientY - mouseY;
+          mouseX = e.clientX;
+          mouseY = e.clientY;
+          
+          const cursor = document.getElementById('custom-cursor');
+          if (!isVisible) {
+            if (cursor) cursor.style.opacity = '1';
+            canvas.style.opacity = '1';
+            isVisible = true;
+          }
+
+          if (cursor) {
+            cursor.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
+          }
+
+          // Generar partículas
+          const speed = Math.sqrt(dx*dx + dy*dy);
+          const particleCount = Math.min(Math.floor(speed / 2) + 1, 5); // Más partículas si mueves rápido
+          
+          for (let i = 0; i < particleCount; i++) {
+            particles.push(new Particle(mouseX, mouseY));
+          }
+        });
+
+        const animateParticles = () => {
+          ctx.clearRect(0, 0, width, height);
+          
+          for (let i = 0; i < particles.length; i++) {
+            particles[i].update();
+            particles[i].draw(ctx);
+            if (particles[i].life <= 0) {
+              particles.splice(i, 1);
+              i--;
+            }
+          }
+          
+          requestAnimationFrame(animateParticles);
+        };
+        requestAnimationFrame(animateParticles);
+
+        // Hover en enlaces y botones interactivos
+        document.addEventListener('mouseover', (e) => {
+          if (e.target.tagName?.toLowerCase() === 'a' || e.target.tagName?.toLowerCase() === 'button' || e.target.closest('a') || e.target.closest('button')) {
+            document.body.classList.add('cursor-hovering');
+          }
+        });
+        
+        document.addEventListener('mouseout', (e) => {
+          if (e.target.tagName?.toLowerCase() === 'a' || e.target.tagName?.toLowerCase() === 'button' || e.target.closest('a') || e.target.closest('button')) {
+            document.body.classList.remove('cursor-hovering');
+          }
+        });
+
+        // Ocultar al salir de la pantalla
+        document.addEventListener('mouseleave', () => {
+          const cursor = document.getElementById('custom-cursor');
+          if (cursor) cursor.style.opacity = '0';
+          canvas.style.opacity = '0';
+          isVisible = false;
+        });
+      }
+    </script>
+    <!-- Decoración Jurassic World -->
+    <div class="jurassic-bg">
+      <div class="amber-orb" style="top: -150px; left: -100px; width: 600px; height: 600px;"></div>
+      <div class="amber-orb" style="bottom: -200px; right: -150px; width: 800px; height: 800px;"></div>
+      
+      <!-- Siluetas con la imagen real de Jurassic Park -->
+      <img src="/assets/trex.png" class="dino-img-silhouette" style="top: 10%; left: 2%; width: 450px; transform: rotate(-15deg);" alt="" />
+      <img src="/assets/trex.png" class="dino-img-silhouette" style="top: 55%; right: 2%; width: 600px; transform: scaleX(-1) rotate(-10deg);" alt="" />
+      
+      <!-- Hojas y fósiles extra -->
+      <div class="dino-silhouette" style="top: 25%; right: 20%; font-size: 100px; transform: rotate(45deg);">🌿</div>
+      <div class="dino-silhouette" style="bottom: 15%; left: 15%; font-size: 120px; transform: rotate(-25deg);">🦴</div>
+      <div class="dino-silhouette" style="top: 75%; left: 40%; font-size: 150px; transform: rotate(10deg);">🌴</div>
+      <div class="dino-silhouette" style="top: 40%; left: 30%; font-size: 90px; transform: rotate(-45deg);">🌿</div>
+      <div class="dino-silhouette" style="top: 10%; right: 40%; font-size: 130px; transform: rotate(20deg);">🦟</div>
+    </div>
+
+    <!-- Estrellas Fugaces -->
+    <div class="stars-container">
+      <div class="shooting-star"></div>
+      <div class="shooting-star"></div>
+      <div class="shooting-star"></div>
+      <div class="shooting-star"></div>
+      <div class="shooting-star"></div>
+    </div>
+    
+    <!-- Reproductor de Audio Persistente -->
+    <div id="audio-container" transition:persist="audio-player" style="position: fixed; bottom: 20px; right: 20px; z-index: 10000; transition: all 0.3s ease;">
+      <div id="youtube-player" style="position: absolute; width: 0; height: 0; opacity: 0; pointer-events: none;"></div>
+      <button id="mute-btn" class="audio-btn" title="Silenciar / Activar Música">
+        <svg id="icon-vol" viewBox="0 0 24 24" fill="currentColor" width="30" height="30">
+          <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+        </svg>
+      </button>
+    </div>
+
+    <script is:inline>
+      let ytPlayer;
+      let isMuted = false;
+
+      // Inicializar YT API solo una vez
+      if (!window.ytPlayerLoaded) {
+        window.ytPlayerLoaded = true;
+        
+        window.onYouTubeIframeAPIReady = function() {
+          ytPlayer = new YT.Player('youtube-player', {
+            height: '1',
+            width: '1',
+            videoId: 'PPl__iyIg6w',
+            playerVars: {
+              autoplay: 1,
+              start: 38,
+              loop: 1,
+              playlist: 'PPl__iyIg6w',
+              controls: 0,
+            },
+            events: {
+              onReady: (e) => {
+                e.target.setVolume(30); // Volumen suave de fondo
+                e.target.playVideo();
+              }
+            }
+          });
+        };
+
+        // Auto-play requiere interacción en la web moderna
+        const startAudio = () => {
+          if (ytPlayer && typeof ytPlayer.playVideo === 'function') {
+            ytPlayer.playVideo();
+            document.removeEventListener('click', startAudio);
+            document.removeEventListener('keydown', startAudio);
+          }
+        };
+        document.addEventListener('click', startAudio);
+        document.addEventListener('keydown', startAudio);
+
+        // Control de botón
+        document.addEventListener('click', (e) => {
+          const btn = e.target.closest('#mute-btn');
+          if (btn && ytPlayer && typeof ytPlayer.mute === 'function') {
+            const icon = document.getElementById('icon-vol');
+            if (isMuted) {
+              ytPlayer.unMute();
+              icon.innerHTML = '<path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>';
+              isMuted = false;
+            } else {
+              ytPlayer.mute();
+              icon.innerHTML = '<path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>';
+              isMuted = true;
+            }
+          }
+        });
+
+        // Detectar tecla de silenciar del teclado (AudioVolumeMute)
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'AudioVolumeMute' && ytPlayer && typeof ytPlayer.mute === 'function') {
+            const btn = document.getElementById('mute-btn');
+            if (btn) btn.click();
+          }
+        });
+
+        // Posicionar dinámicamente el botón junto al logo
+        const updateAudioPosition = () => {
+          const logoDiv = document.querySelector('.logo');
+          const audioContainer = document.getElementById('audio-container');
+          if (logoDiv && audioContainer) {
+            setTimeout(() => {
+              const rect = logoDiv.getBoundingClientRect();
+              audioContainer.style.bottom = 'auto';
+              audioContainer.style.right = 'auto';
+              audioContainer.style.top = (rect.top + rect.height / 2 - 27.5) + 'px';
+              audioContainer.style.left = (rect.right + 20) + 'px'; 
+            }, 50);
+          } else if (audioContainer) {
+            // Regresar a la esquina inferior derecha (Ej: en el Login)
+            audioContainer.style.bottom = '20px';
+            audioContainer.style.right = '20px';
+            audioContainer.style.top = 'auto';
+            audioContainer.style.left = 'auto';
+          }
+        };
+
+        document.addEventListener('astro:page-load', updateAudioPosition);
+        window.addEventListener('resize', updateAudioPosition);
+      }
+    </script>
+
     <slot />
   </body>
 </html>

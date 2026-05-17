@@ -243,7 +243,8 @@ header {
 .nav-links a {
   color: var(--text-color);
   text-decoration: none;
-  font-size: 0.9rem;
+  font-size: 1.1rem;
+  font-weight: 500;
   transition: color 0.2s;
 }
 
@@ -270,8 +271,8 @@ header {
 }
 
 .user-avatar {
-  width: 40px;
-  height: 40px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
   border: 2px solid var(--primary-color);
   object-fit: cover;
@@ -310,10 +311,18 @@ main {
 
 .hero-section {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2rem;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 3rem;
   align-items: center;
-  margin-bottom: 4rem;
+}
+
+.card-container {
+  background: #000000;
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 3rem 2rem;
+  margin-bottom: 3rem;
+  box-shadow: 0 0 20px rgba(255, 170, 0, 0.05);
 }
 
 .hero-content h1 {
@@ -374,8 +383,7 @@ main {
 
 /* Skills */
 .skills-section {
-  padding: 4rem 0;
-  border-top: 1px solid var(--border-color);
+  margin-bottom: 3rem;
 }
 
 .skills-grid {
@@ -419,8 +427,7 @@ main {
 
 /* Models 3D */
 .models-section {
-  padding: 4rem 0;
-  border-top: 1px solid var(--border-color);
+  margin-bottom: 3rem;
 }
 
 .models-container {
@@ -457,6 +464,17 @@ main {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  max-height: 400px;
+  overflow-y: auto;
+  padding-right: 5px;
+}
+
+.models-list::-webkit-scrollbar {
+  width: 6px;
+}
+.models-list::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
 }
 
 .model-btn {
@@ -488,6 +506,8 @@ main {
   display: flex;
   flex-direction: column;
   min-height: 400px;
+  background: radial-gradient(circle at center, rgba(255, 170, 0, 0.15) 0%, #000000 70%);
+  box-shadow: inset 0 0 100px #000000;
 }
 
 .model-info {
@@ -520,8 +540,7 @@ main {
 
 /* Projects Section */
 .projects-section {
-  padding: 4rem 0;
-  border-top: 1px solid var(--border-color);
+  margin-bottom: 3rem;
 }
 
 .projects-grid {
@@ -661,4 +680,184 @@ main {
 
 @keyframes blink {
   50% { opacity: 0; }
+}
+
+/* Estrellas Fugaces */
+.stars-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.shooting-star {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: var(--primary-color);
+  border-radius: 50%;
+  box-shadow: 0 0 0 4px rgba(255, 170, 0, 0.1), 0 0 0 8px rgba(255, 170, 0, 0.1), 0 0 20px var(--primary-glow);
+  animation: animateStar 3s linear infinite;
+  opacity: 0;
+}
+
+.shooting-star::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 150px;
+  height: 1px;
+  background: linear-gradient(90deg, var(--primary-color), transparent);
+}
+
+@keyframes animateStar {
+  0% {
+    transform: rotate(315deg) translateX(0);
+    opacity: 1;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(315deg) translateX(-1500px);
+    opacity: 0;
+  }
+}
+
+.shooting-star:nth-child(1) {
+  top: 0;
+  right: 0;
+  left: initial;
+  animation-delay: 0s;
+  animation-duration: 4s;
+}
+
+.shooting-star:nth-child(2) {
+  top: 0;
+  right: 200px;
+  left: initial;
+  animation-delay: 2.5s;
+  animation-duration: 3s;
+}
+
+.shooting-star:nth-child(3) {
+  top: 150px;
+  right: 0;
+  left: initial;
+  animation-delay: 1.2s;
+  animation-duration: 2.5s;
+}
+
+.shooting-star:nth-child(4) {
+  top: 0;
+  right: 600px;
+  left: initial;
+  animation-delay: 4.8s;
+  animation-duration: 5s;
+}
+
+.shooting-star:nth-child(5) {
+  top: 300px;
+  right: 0;
+  left: initial;
+  animation-delay: 3s;
+  animation-duration: 4.5s;
+}
+
+/* Reproductor de Audio */
+.audio-btn {
+  background: #000;
+  border: 2px solid var(--primary-color);
+  color: var(--primary-color);
+  border-radius: 50%;
+  width: 55px;
+  height: 55px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 0 15px var(--primary-glow);
+  transition: all 0.3s ease;
+}
+
+.audio-btn:hover {
+  transform: scale(1.1);
+  background: var(--primary-color);
+  color: #000;
+  box-shadow: 0 0 25px var(--primary-glow);
+}
+
+/* Decoración Jurassic World */
+.jurassic-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -2;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.amber-orb {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 170, 0, 0.15) 0%, transparent 70%);
+  filter: blur(30px);
+}
+
+.dino-silhouette {
+  position: absolute;
+  color: transparent;
+  text-shadow: 0 0 0 rgba(255, 170, 0, 0.2); 
+  filter: grayscale(100%) sepia(100%) hue-rotate(350deg) saturate(10) opacity(0.25); 
+  user-select: none;
+  pointer-events: none;
+}
+
+.dino-img-silhouette {
+  position: absolute;
+  mix-blend-mode: screen;
+  filter: invert(1) sepia(100%) saturate(500%) hue-rotate(350deg) brightness(1.2) opacity(0.3);
+  user-select: none;
+  pointer-events: none;
+}
+
+/* Custom Cursor (Particles) */
+@media (pointer: fine) {
+  body, a, button, input, .model-btn, .audio-btn {
+    cursor: none !important;
+  }
+
+  .custom-cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 6px;
+    height: 6px;
+    margin-left: -3px;
+    margin-top: -3px;
+    background-color: #fff;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 100000;
+    will-change: transform;
+    transition: opacity 0.2s, width 0.2s, height 0.2s, margin 0.2s, background-color 0.2s, box-shadow 0.2s;
+    box-shadow: 0 0 10px var(--primary-color), 0 0 20px var(--primary-color);
+  }
+
+  /* Efecto Hover */
+  body.cursor-hovering .custom-cursor {
+    width: 12px;
+    height: 12px;
+    margin-left: -6px;
+    margin-top: -6px;
+    background-color: var(--primary-color);
+    box-shadow: 0 0 20px var(--primary-color), 0 0 40px var(--primary-color);
+  }
 }

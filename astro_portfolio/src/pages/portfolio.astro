@@ -32,14 +32,17 @@ import Projects from "../components/Projects.jsx";
 
     <main>
       {/* Hero / About Section */}
-      <section class="hero-section" id="about">
-        <div
-          class="hero-content"
-          style="grid-column: 1 / -1; text-align: center; max-width: 800px; margin: 0 auto;"
-        >
+      <section class="hero-section card-container" id="about">
+        <div class="hero-image" style="display: flex; justify-content: center; align-items: center;">
+          <div style="width: 250px; height: 250px; border-radius: 50%; border: 3px solid var(--primary-color); overflow: hidden; box-shadow: 0 0 20px var(--primary-glow); background: #050505; display: flex; align-items: center; justify-content: center; position: relative;">
+            <span style="color: #8b949e; font-size: 0.9rem; z-index: 1;">Tu foto aquí</span>
+            {/* Imagen que podrás reemplazar después: */}
+            {/* <img src="/assets/tu-foto.jpg" alt="Gabriel Gustavo" style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; z-index: 2;" /> */}
+          </div>
+        </div>
+        <div class="hero-content">
           <h1>
-            Hola, soy <span id="typewriter" style="color: var(--primary-color);"
-            ></span><span class="type-cursor">|</span>
+            Hola, soy <span id="typewriter" style="color: var(--primary-color);"></span><span class="type-cursor">|</span>
           </h1>
           <p>
             Bienvenido a mi espacio digital. Soy un desarrollador web apasionado
@@ -53,9 +56,10 @@ import Projects from "../components/Projects.jsx";
       {/* 3D Models CTA Section */}
       <section
         id="models"
-        style="padding: 4rem 0; border-top: 1px solid var(--border-color); text-align: center;"
+        class="card-container"
+        style="text-align: center;"
       >
-        <h2 class="section-title">Mis Modelos 3D</h2>
+        <h2 class="section-title" style="margin-bottom: 1rem;">Mis Modelos 3D</h2>
         <p style="color: #8b949e; margin-bottom: 2rem;">
           He diseñado y modelado todo mi setup en Blender. Entra aquí para
           explorar cada objeto y manipularlo libremente en 360°.
@@ -82,74 +86,85 @@ import Projects from "../components/Projects.jsx";
     import { signOut, onAuthStateChanged } from "firebase/auth";
     import { auth } from "../firebase/client";
 
-    // Manejar avatar de usuario
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
+    let authUnsubscribe;
+    let typeTimeoutId;
+
+    document.addEventListener('astro:page-load', () => {
+      // Manejar avatar de usuario
+      if (authUnsubscribe) authUnsubscribe();
+      authUnsubscribe = onAuthStateChanged(auth, (user) => {
         const avatarImg = document.getElementById("user-avatar");
         const logoText = document.getElementById("logo-text");
-        // Usar foto de Google si existe, o usar una por defecto
-        if (avatarImg) {
-          avatarImg.src =
-            user.photoURL ||
-            "https://ui-avatars.com/api/?name=User&background=ffcc00&color=000";
+        if (user && avatarImg) {
+          avatarImg.src = user.photoURL || "https://ui-avatars.com/api/?name=User&background=ffcc00&color=000";
           avatarImg.style.display = "block";
           if (logoText) logoText.style.display = "none";
         }
+      });
+
+      // Efecto de máquina de escribir
+      const texts = [
+        { text: "Gabriel Gustavo Lizama May", wait: 15000 },
+        { text: "Full Stack Junior", wait: 10000 },
+      ];
+      let textIndex = 0;
+      let charIndex = 0;
+      let isDeleting = false;
+
+      function type() {
+        const typewriterEl = document.getElementById("typewriter");
+        if (!typewriterEl) return;
+
+        const current = texts[textIndex];
+        const fullText = current.text;
+
+        if (isDeleting) {
+          typewriterEl.textContent = fullText.substring(0, charIndex - 1);
+          charIndex--;
+        } else {
+          typewriterEl.textContent = fullText.substring(0, charIndex + 1);
+          charIndex++;
+        }
+
+        let typeSpeed = isDeleting ? 30 : 80;
+
+        if (!isDeleting && charIndex === fullText.length) {
+          typeSpeed = current.wait;
+          isDeleting = true;
+        } else if (isDeleting && charIndex === 0) {
+          isDeleting = false;
+          textIndex = (textIndex + 1) % texts.length;
+          typeSpeed = 500;
+        }
+
+        typeTimeoutId = setTimeout(type, typeSpeed);
+      }
+
+      if (typeTimeoutId) clearTimeout(typeTimeoutId);
+      
+      // Limpiar texto en caso de que ya haya algo por la transición
+      const typeEl = document.getElementById("typewriter");
+      if(typeEl) typeEl.textContent = "";
+
+      // Iniciar el efecto
+      setTimeout(type, 500);
+
+      // Manejar cierre de sesión
+      const logoutBtn = document.getElementById("logoutBtn");
+      if (logoutBtn) {
+        // Remover event listeners anteriores clonando el botón (útil en MPAs)
+        const newBtn = logoutBtn.cloneNode(true);
+        logoutBtn.parentNode.replaceChild(newBtn, logoutBtn);
+        
+        newBtn.addEventListener("click", async () => {
+          try {
+            await signOut(auth);
+            window.location.href = "/";
+          } catch (error) {
+            console.error("Error al cerrar sesión", error);
+          }
+        });
       }
     });
-
-    // Efecto de máquina de escribir
-    const texts = [
-      { text: "Gabriel Gustavo Lizama May", wait: 15000 },
-      { text: "Full Stack Junior", wait: 10000 },
-    ];
-    let textIndex = 0;
-    let charIndex = 0;
-    let isDeleting = false;
-
-    function type() {
-      const typewriterEl = document.getElementById("typewriter");
-      if (!typewriterEl) return;
-
-      const current = texts[textIndex];
-      const fullText = current.text;
-
-      if (isDeleting) {
-        typewriterEl.textContent = fullText.substring(0, charIndex - 1);
-        charIndex--;
-      } else {
-        typewriterEl.textContent = fullText.substring(0, charIndex + 1);
-        charIndex++;
-      }
-
-      let typeSpeed = isDeleting ? 30 : 80;
-
-      if (!isDeleting && charIndex === fullText.length) {
-        typeSpeed = current.wait;
-        isDeleting = true;
-      } else if (isDeleting && charIndex === 0) {
-        isDeleting = false;
-        textIndex = (textIndex + 1) % texts.length;
-        typeSpeed = 500;
-      }
-
-      setTimeout(type, typeSpeed);
-    }
-
-    // Iniciar el efecto después de un pequeño retraso
-    setTimeout(type, 500);
-
-    // Manejar cierre de sesión
-    const logoutBtn = document.getElementById("logoutBtn");
-    if (logoutBtn) {
-      logoutBtn.addEventListener("click", async () => {
-        try {
-          await signOut(auth);
-          window.location.href = "/";
-        } catch (error) {
-          console.error("Error al cerrar sesión", error);
-        }
-      });
-    }
   </script>
 </Layout>

@@ -1,12 +1,25 @@
 import React, { useState, useEffect } from 'react';
 
+import habitacionUrl from '../assets/Habitación.glb?url';
+import laptopUrl from '../assets/Laptop.glb?url';
+import monitorUrl from '../assets/Monitor.glb?url';
+import setupUrl from '../assets/Setup.glb?url';
+import tecladoUrl from '../assets/Teclado.glb?url';
+import mouseUrl from '../assets/mouse.glb?url';
+import chairUrl from '../assets/gaming_chair.glb?url';
+import micUrl from '../assets/mic_gamer_uso_libre_comercial.glb?url';
+import mousepadUrl from '../assets/damascus_mousepad.glb?url';
+
 const models = [
-  { id: 'setup', name: 'Setup Completo', src: '/assets/3d/setup.glb' },
-  { id: 'monitor', name: 'Monitor', src: '/assets/3d/monitor.glb' },
-  { id: 'teclado', name: 'Teclado', src: '/assets/3d/teclado.glb' },
-  { id: 'mouse', name: 'Mouse', src: '/assets/3d/mouse.glb' },
-  { id: 'laptop', name: 'Laptop / PC', src: '/assets/3d/laptop.glb' },
-  { id: 'extra', name: 'Accesorio Extra', src: '/assets/3d/extra.glb' },
+  { id: 'habitacion', name: 'Setup Completo', src: habitacionUrl },
+  { id: 'setup', name: 'Escritorio', src: setupUrl },
+  { id: 'monitor', name: 'Monitor', src: monitorUrl },
+  { id: 'teclado', name: 'Teclado', src: tecladoUrl },
+  { id: 'mouse', name: 'Mouse', src: mouseUrl },
+  { id: 'mousepad', name: 'Mousepad', src: mousepadUrl },
+  { id: 'laptop', name: 'Laptop / PC', src: laptopUrl },
+  { id: 'chair', name: 'Silla Gamer', src: chairUrl },
+  { id: 'mic', name: 'Micrófono', src: micUrl },
 ];
 
 export default function Models3D() {
@@ -15,6 +28,19 @@ export default function Models3D() {
 
   useEffect(() => {
     setIsClient(true);
+    
+    // Precargar modelos en caché para cambiar rápido
+    const preloadModels = () => {
+      models.forEach((model) => {
+        // Evitamos precargar el actual porque ya lo está haciendo el model-viewer
+        if (model.id !== models[0].id) {
+          fetch(model.src).catch(err => console.log('Error precargando', err));
+        }
+      });
+    };
+
+    // Esperar un poco para no saturar la carga inicial
+    setTimeout(preloadModels, 2000);
   }, []);
 
   return (
@@ -53,7 +79,13 @@ export default function Models3D() {
               exposure="1"
               style={{ width: '100%', height: '100%', minHeight: '400px' }}
             >
-              <div slot="poster" className="poster">Cargando modelo... (Asegúrate de agregar {selectedModel.src})</div>
+              <div slot="poster" className="poster">
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}>
+                  <div style={{ fontSize: '2rem', animation: 'blink 1.5s infinite' }}>⏳</div>
+                  <span style={{ color: 'var(--primary-color)', fontWeight: 'bold' }}>Cargando modelo...</span>
+                  <small style={{ color: '#8b949e', fontSize: '0.8rem', textAlign: 'center', maxWidth: '250px' }}>Los modelos pesados pueden tardar unos segundos en aparecer.</small>
+                </div>
+              </div>
             </model-viewer>
           )}
           <div className="model-info">
