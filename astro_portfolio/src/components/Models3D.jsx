@@ -1,54 +1,52 @@
 import React, { useState, useEffect } from 'react';
 
-// Ya no hay imports de archivos locales. Todo viene directo de la nube (CDN)
-
+// Como los archivos están en la carpeta "public", se acceden directamente desde la raíz "/"
 const models = [
   { 
     id: 'habitacion', 
     name: 'Setup Completo', 
-    // BORRA ESTE TEXTO Y PEGA EL ENLACE QUE COPIASTE DE Habitacion.glb
-    src: 'https://github.com/TAVICRACK841/web_profile_blender/releases/download/v1.0.0/Habitacion.glb' 
+    // Verifica si tu archivo empieza con mayúscula o minúscula y ajústalo aquí si es necesario
+    src: '/Habitacion.glb' 
   },
   { 
     id: 'setup', 
     name: 'Escritorio', 
-    // PEGA AQUÍ EL ENLACE DE Setup.glb
-    src: 'https://github.com/TAVICRACK841/web_profile_blender/releases/download/v1.0.0/Setup.glb' 
+    src: '/Setup.glb' 
   },
   { 
     id: 'monitor', 
     name: 'Monitor', 
-    src: 'https://github.com/TAVICRACK841/web_profile_blender/releases/download/v1.0.0/Monitor.glb' 
+    src: '/Monitor.glb' 
   },
   { 
     id: 'teclado', 
     name: 'Teclado', 
-    src: 'https://github.com/TAVICRACK841/web_profile_blender/releases/download/v1.0.0/Teclado.glb' 
+    src: '/Teclado.glb' 
   },
   { 
     id: 'mouse', 
     name: 'Mouse', 
-    src: 'https://github.com/TAVICRACK841/web_profile_blender/releases/download/v1.0.0/Mouse.glb' 
+    src: '/mouse.glb' 
   },
   { 
     id: 'mousepad', 
     name: 'Mousepad', 
-    src: 'https://github.com/TAVICRACK841/web_profile_blender/releases/download/v1.0.0/damascus_mousepad.glb' 
+    src: '/damascus_mousepad.glb' 
   },
   { 
     id: 'laptop', 
     name: 'Laptop / PC', 
-    src: 'https://github.com/TAVICRACK841/web_profile_blender/releases/download/v1.0.0/Laptop.glb' 
+    src: '/Laptop.glb' 
   },
   { 
     id: 'chair', 
     name: 'Silla Gamer', 
-    src: 'https://github.com/TAVICRACK841/web_profile_blender/releases/download/v1.0.0/gaming_chair.glb' 
+    src: '/gaming_chair.glb' 
   },
   { 
     id: 'mic', 
     name: 'Micrófono', 
-    src: 'https://github.com/TAVICRACK841/web_profile_blender/releases/download/v1.0.0/mic_gamer_uso_libre_comercial.glb' 
+    src: '/mic_gamer_uso_libre_comercial.glb' 
   },
 ];
 
@@ -59,6 +57,7 @@ export default function Models3D() {
   useEffect(() => {
     setIsClient(true);
     
+    // Precargar modelos en caché para cambiar rápido
     const preloadModels = () => {
       models.forEach((model) => {
         if (model.id !== models[0].id) {
@@ -75,6 +74,7 @@ export default function Models3D() {
       <h2 className="section-title">Mi Setup en 3D</h2>
       
       <div className="models-container">
+        {/* Menú de selección */}
         <div className="models-menu">
           <h3>Explorar Componentes</h3>
           <p className="menu-desc">Selecciona una pieza para verla a detalle.</p>
@@ -92,6 +92,7 @@ export default function Models3D() {
           </ul>
         </div>
 
+        {/* Visor 3D */}
         <div className="model-viewer-wrapper">
           {isClient && (
             <model-viewer 
