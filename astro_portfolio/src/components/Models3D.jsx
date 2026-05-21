@@ -1,24 +1,55 @@
 import React, { useState, useEffect } from 'react';
-import habitacionUrl from '../assets/Habitacion.glb?url';
-import laptopUrl from '../assets/Laptop.glb?url';
-import monitorUrl from '../assets/Monitor.glb?url';
-import setupUrl from '../assets/Setup.glb?url';
-import tecladoUrl from '../assets/Teclado.glb?url';
-import mouseUrl from '../assets/mouse.glb?url';
-import chairUrl from '../assets/gaming_chair.glb?url';
-import micUrl from '../assets/mic_gamer_uso_libre_comercial.glb?url';
-import mousepadUrl from '../assets/damascus_mousepad.glb?url';
+
+// Ya no hay imports de archivos locales. Todo viene directo de la nube (CDN)
 
 const models = [
-  { id: 'habitacion', name: 'Setup Completo', src: habitacionUrl },
-  { id: 'setup', name: 'Escritorio', src: setupUrl },
-  { id: 'monitor', name: 'Monitor', src: monitorUrl },
-  { id: 'teclado', name: 'Teclado', src: tecladoUrl },
-  { id: 'mouse', name: 'Mouse', src: mouseUrl },
-  { id: 'mousepad', name: 'Mousepad', src: mousepadUrl },
-  { id: 'laptop', name: 'Laptop / PC', src: laptopUrl },
-  { id: 'chair', name: 'Silla Gamer', src: chairUrl },
-  { id: 'mic', name: 'Micrófono', src: micUrl },
+  { 
+    id: 'habitacion', 
+    name: 'Setup Completo', 
+    // BORRA ESTE TEXTO Y PEGA EL ENLACE QUE COPIASTE DE Habitacion.glb
+    src: 'https://github.com/TAVICRACK841/web_profile_blender/releases/download/v1.0.0/Habitacion.glb' 
+  },
+  { 
+    id: 'setup', 
+    name: 'Escritorio', 
+    // PEGA AQUÍ EL ENLACE DE Setup.glb
+    src: 'https://github.com/TAVICRACK841/web_profile_blender/releases/download/v1.0.0/Setup.glb' 
+  },
+  { 
+    id: 'monitor', 
+    name: 'Monitor', 
+    src: 'https://github.com/TAVICRACK841/web_profile_blender/releases/download/v1.0.0/Monitor.glb' 
+  },
+  { 
+    id: 'teclado', 
+    name: 'Teclado', 
+    src: 'https://github.com/TAVICRACK841/web_profile_blender/releases/download/v1.0.0/Teclado.glb' 
+  },
+  { 
+    id: 'mouse', 
+    name: 'Mouse', 
+    src: 'https://github.com/TAVICRACK841/web_profile_blender/releases/download/v1.0.0/Mouse.glb' 
+  },
+  { 
+    id: 'mousepad', 
+    name: 'Mousepad', 
+    src: 'https://github.com/TAVICRACK841/web_profile_blender/releases/download/v1.0.0/damascus_mousepad.glb' 
+  },
+  { 
+    id: 'laptop', 
+    name: 'Laptop / PC', 
+    src: 'https://github.com/TAVICRACK841/web_profile_blender/releases/download/v1.0.0/Laptop.glb' 
+  },
+  { 
+    id: 'chair', 
+    name: 'Silla Gamer', 
+    src: 'https://github.com/TAVICRACK841/web_profile_blender/releases/download/v1.0.0/gaming_chair.glb' 
+  },
+  { 
+    id: 'mic', 
+    name: 'Micrófono', 
+    src: 'https://github.com/TAVICRACK841/web_profile_blender/releases/download/v1.0.0/mic_gamer_uso_libre_comercial.glb' 
+  },
 ];
 
 export default function Models3D() {
@@ -26,21 +57,16 @@ export default function Models3D() {
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    // Como el script de Google ya está cargado en el archivo .astro de manera oficial,
-    // simplemente activamos la vista de React sin esperar nada más.
     setIsClient(true);
     
-    // Precargar modelos en caché para que el cambio de piezas sea instantáneo
     const preloadModels = () => {
       models.forEach((model) => {
-        // Evitamos precargar el actual porque el model-viewer ya lo hace en automático
         if (model.id !== models[0].id) {
           fetch(model.src).catch(err => console.log('Error precargando', err));
         }
       });
     };
 
-    // Esperar un poco para no saturar la carga de red inicial de la página
     setTimeout(preloadModels, 2000);
   }, []);
 
@@ -49,7 +75,6 @@ export default function Models3D() {
       <h2 className="section-title">Mi Setup en 3D</h2>
       
       <div className="models-container">
-        {/* Menú de selección */}
         <div className="models-menu">
           <h3>Explorar Componentes</h3>
           <p className="menu-desc">Selecciona una pieza para verla a detalle.</p>
@@ -67,7 +92,6 @@ export default function Models3D() {
           </ul>
         </div>
 
-        {/* Visor 3D */}
         <div className="model-viewer-wrapper">
           {isClient && (
             <model-viewer 
@@ -78,7 +102,6 @@ export default function Models3D() {
               shadow-intensity="1"
               environment-image="neutral"
               exposure="1"
-              // El "display: 'block'" fuerza al navegador a darle espacio y no colapsarlo a 0px
               style={{ width: '100%', height: '100%', minHeight: '400px', display: 'block' }}
             >
               <div slot="poster" className="poster">
