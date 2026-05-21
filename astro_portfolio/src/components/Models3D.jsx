@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-
 import habitacionUrl from '../assets/Habitacion.glb?url';
 import laptopUrl from '../assets/Laptop.glb?url';
 import monitorUrl from '../assets/Monitor.glb?url';
@@ -27,20 +26,21 @@ export default function Models3D() {
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    // 1. Cargamos el visor dinámicamente SOLO en el navegador
-    import('@google/model-viewer').then(() => {
-      setIsClient(true);
-    }).catch(err => console.error("Error cargando model-viewer", err));
+    // Como el script de Google ya está cargado en el archivo .astro de manera oficial,
+    // simplemente activamos la vista de React sin esperar nada más.
+    setIsClient(true);
     
-    // 2. Precargar modelos en caché para cambiar rápido
+    // Precargar modelos en caché para que el cambio de piezas sea instantáneo
     const preloadModels = () => {
       models.forEach((model) => {
+        // Evitamos precargar el actual porque el model-viewer ya lo hace en automático
         if (model.id !== models[0].id) {
           fetch(model.src).catch(err => console.log('Error precargando', err));
         }
       });
     };
 
+    // Esperar un poco para no saturar la carga de red inicial de la página
     setTimeout(preloadModels, 2000);
   }, []);
 
@@ -78,13 +78,16 @@ export default function Models3D() {
               shadow-intensity="1"
               environment-image="neutral"
               exposure="1"
-              style={{ width: '100%', height: '100%', minHeight: '400px' }}
+              // El "display: 'block'" fuerza al navegador a darle espacio y no colapsarlo a 0px
+              style={{ width: '100%', height: '100%', minHeight: '400px', display: 'block' }}
             >
               <div slot="poster" className="poster">
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}>
                   <div style={{ fontSize: '2rem', animation: 'blink 1.5s infinite' }}>⏳</div>
                   <span style={{ color: 'var(--primary-color)', fontWeight: 'bold' }}>Cargando modelo...</span>
-                  <small style={{ color: '#8b949e', fontSize: '0.8rem', textAlign: 'center', maxWidth: '250px' }}>Los modelos pesados pueden tardar unos segundos en aparecer.</small>
+                  <small style={{ color: '#8b949e', fontSize: '0.8rem', textAlign: 'center', maxWidth: '250px' }}>
+                    Los modelos pesados pueden tardar unos segundos en aparecer.
+                  </small>
                 </div>
               </div>
             </model-viewer>

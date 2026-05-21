@@ -4,6 +4,8 @@ import Models3D from '../components/Models3D.jsx';
 ---
 
 <Layout title="Setup 3D | Nova Soft">
+  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
+
   <div class="portfolio-container" style="min-height: 100vh; display: flex; flex-direction: column;">
     <header>
       <div class="logo" style="display: flex; align-items: center; gap: 10px;">
@@ -33,7 +35,6 @@ import Models3D from '../components/Models3D.jsx';
     import { onAuthStateChanged } from 'firebase/auth';
     import { auth } from '../firebase/client';
 
-    // Manejar avatar de usuario
     onAuthStateChanged(auth, (user) => {
       if (user) {
         const avatarImg = document.getElementById('user-avatar');
