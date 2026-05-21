@@ -1,5 +1,5 @@
-import '@google/model-viewer';
 import React, { useState, useEffect } from 'react';
+
 import habitacionUrl from '../assets/Habitacion.glb?url';
 import laptopUrl from '../assets/Laptop.glb?url';
 import monitorUrl from '../assets/Monitor.glb?url';
@@ -27,7 +27,13 @@ export default function Models3D() {
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    setIsClient(true);
+    // 1. Importación dinámica de la librería SOLO en el navegador del cliente
+    import('@google/model-viewer')
+      .then(() => {
+        // Una vez cargada la librería, activamos la vista del componente
+        setIsClient(true);
+      })
+      .catch((err) => console.error("Error cargando model-viewer:", err));
     
     // Precargar modelos en caché para cambiar rápido
     const preloadModels = () => {
