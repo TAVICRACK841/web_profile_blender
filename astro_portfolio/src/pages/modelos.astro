@@ -3,7 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import Models3D from '../components/Models3D.jsx';
 ---
 
-<Layout title="Setup 3D | Gabriel Gustavo Lizama May">
+<Layout title="Setup 3D | Nova Soft">
   <div class="portfolio-container" style="min-height: 100vh; display: flex; flex-direction: column;">
     <header>
       <div class="logo" style="display: flex; align-items: center; gap: 10px;">
@@ -25,7 +25,7 @@ import Models3D from '../components/Models3D.jsx';
         <p style="color: #8b949e;">Usa el mouse para rotar 360° y hacer zoom en cada uno de los componentes de mi entorno de desarrollo.</p>
       </div>
 
-      <Models3D client:load />
+      <Models3D client:only="react" />
     </main>
   </div>
 

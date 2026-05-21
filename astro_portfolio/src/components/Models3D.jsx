@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import habitacionUrl from '../assets/Habitacion.glb?url';
+import habitacionUrl from '../assets/habitacion.glb?url';
 import laptopUrl from '../assets/Laptop.glb?url';
 import monitorUrl from '../assets/Monitor.glb?url';
 import setupUrl from '../assets/Setup.glb?url';
@@ -27,25 +27,20 @@ export default function Models3D() {
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    // 1. Importación dinámica de la librería SOLO en el navegador del cliente
-    import('@google/model-viewer')
-      .then(() => {
-        // Una vez cargada la librería, activamos la vista del componente
-        setIsClient(true);
-      })
-      .catch((err) => console.error("Error cargando model-viewer:", err));
+    // 1. Cargamos el visor dinámicamente SOLO en el navegador
+    import('@google/model-viewer').then(() => {
+      setIsClient(true);
+    }).catch(err => console.error("Error cargando model-viewer", err));
     
-    // Precargar modelos en caché para cambiar rápido
+    // 2. Precargar modelos en caché para cambiar rápido
     const preloadModels = () => {
       models.forEach((model) => {
-        // Evitamos precargar el actual porque ya lo está haciendo el model-viewer
         if (model.id !== models[0].id) {
           fetch(model.src).catch(err => console.log('Error precargando', err));
         }
       });
     };
 
-    // Esperar un poco para no saturar la carga inicial
     setTimeout(preloadModels, 2000);
   }, []);
 
