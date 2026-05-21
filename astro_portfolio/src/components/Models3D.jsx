@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import habitacionUrl from '../assets/Habitación.glb?url';
+import habitacionUrl from '../assets/Habitacion.glb?url';
 import laptopUrl from '../assets/Laptop.glb?url';
 import monitorUrl from '../assets/Monitor.glb?url';
 import setupUrl from '../assets/Setup.glb?url';
