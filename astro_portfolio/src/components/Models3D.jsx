@@ -6,12 +6,12 @@ const models = [
     id: 'habitacion', 
     name: 'Setup Completo', 
     // Verifica si tu archivo empieza con mayúscula o minúscula y ajústalo aquí si es necesario
-    src: '/Habitacion.glb' 
+    src: './Habitacion-v1.glb' 
   },
   { 
     id: 'setup', 
     name: 'Escritorio', 
-    src: '/Setup.glb' 
+    src: './Setup.glb' 
   },
   { 
     id: 'monitor', 
