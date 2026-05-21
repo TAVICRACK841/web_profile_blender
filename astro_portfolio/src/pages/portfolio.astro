@@ -2,6 +2,7 @@
 import Layout from "../layouts/Layout.astro";
 import Skills from "../components/Skills.jsx";
 import Projects from "../components/Projects.jsx";
+import profileImage from "../assets/IMG_20260520_155725.jpg";
 ---
 
 <Layout title="Portafolio | Gabriel Gustavo Lizama May">
@@ -35,9 +36,7 @@ import Projects from "../components/Projects.jsx";
       <section class="hero-section card-container" id="about">
         <div class="hero-image" style="display: flex; justify-content: center; align-items: center;">
           <div style="width: 250px; height: 250px; border-radius: 50%; border: 3px solid var(--primary-color); overflow: hidden; box-shadow: 0 0 20px var(--primary-glow); background: #050505; display: flex; align-items: center; justify-content: center; position: relative;">
-            <span style="color: #8b949e; font-size: 0.9rem; z-index: 1;">Tu foto aquí</span>
-            {/* Imagen que podrás reemplazar después: */}
-            {/* <img src="/assets/tu-foto.jpg" alt="Gabriel Gustavo" style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; z-index: 2;" /> */}
+            <img src={profileImage.src} alt="Gabriel Gustavo" style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; z-index: 2;" />
           </div>
         </div>
         <div class="hero-content">
@@ -79,6 +78,24 @@ import Projects from "../components/Projects.jsx";
 
       {/* Projects Section */}
       <Projects client:load />
+
+      {/* Contact Section */}
+      <section id="contact" class="card-container" style="text-align: center; margin-top: 3rem;">
+        <h2 class="section-title" style="margin-bottom: 1rem;">Contáctame</h2>
+        <p style="color: #8b949e; margin-bottom: 2rem;">¿Tienes un proyecto en mente? Escríbeme y lo hacemos realidad.</p>
+        
+        <form id="contact-form" class="contact-form">
+          <div class="input-group">
+            <label for="contact-name">Nombre Completo</label>
+            <input type="text" id="contact-name" placeholder="Ej. Juan Pérez" required />
+          </div>
+          <div class="input-group">
+            <label for="contact-message">Mensaje</label>
+            <textarea id="contact-message" rows="4" placeholder="Hola, me gustaría platicar sobre..." required></textarea>
+          </div>
+          <button type="submit" class="login-btn" style="width: auto; padding: 0.75rem 3rem; margin: 0 auto;">Enviar Mensaje</button>
+        </form>
+      </section>
     </main>
   </div>
 
@@ -163,6 +180,25 @@ import Projects from "../components/Projects.jsx";
           } catch (error) {
             console.error("Error al cerrar sesión", error);
           }
+        });
+      }
+
+      // Manejar formulario de contacto
+      const contactForm = document.getElementById("contact-form");
+      if (contactForm) {
+        const newForm = contactForm.cloneNode(true);
+        contactForm.parentNode.replaceChild(newForm, contactForm);
+        
+        newForm.addEventListener("submit", (e) => {
+          e.preventDefault();
+          const name = document.getElementById("contact-name").value;
+          const message = document.getElementById("contact-message").value;
+          const userEmail = auth.currentUser ? auth.currentUser.email : "Invitado";
+          
+          const subject = encodeURIComponent("Contacto desde Portafolio - " + name);
+          const body = encodeURIComponent(message + "\n\n---\nEnviado por: " + userEmail);
+          
+          window.location.href = `mailto:gustavo841lizama@gmail.com?subject=${subject}&body=${body}`;
         });
       }
     });

@@ -68,20 +68,35 @@ body {
   font-weight: 500;
 }
 
-.input-group input {
+.input-group input,
+.input-group textarea {
   background: #000000;
   border: 1px solid var(--border-color);
   padding: 0.75rem 1rem;
   border-radius: 6px;
   color: #fff;
   font-size: 1rem;
+  font-family: inherit;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.input-group input:focus {
+.input-group textarea {
+  resize: vertical;
+}
+
+.input-group input:focus,
+.input-group textarea:focus {
   outline: none;
   border-color: var(--primary-color);
   box-shadow: 0 0 0 3px rgba(255, 170, 0, 0.3);
+}
+
+.contact-form {
+  max-width: 500px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
 }
 
 .login-btn {
